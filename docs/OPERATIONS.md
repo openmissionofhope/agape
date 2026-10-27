@@ -33,27 +33,20 @@ fly ssh console --app omh-agape -C "node dist/cli.js set-role you@example.org ad
 
 ### Custom domain: agape.openmissionofhope.org
 
-DNS for `openmissionofhope.org` is hosted by Wix (`ns0/ns1.wixdns.net`).
+DNS for `openmissionofhope.org` is hosted by Wix (`ns0/ns1.wixdns.net`). Wix cannot create AAAA
+records, so ownership is proven with a TXT record instead. Current records:
 
-```bash
-fly certs add agape.openmissionofhope.org --app omh-agape
-```
+| Type | Host | Value | Why |
+|---|---|---|---|
+| A | `agape` | `66.241.124.210` | The app's shared IPv4 (`fly ips list --app omh-agape`) |
+| TXT | `_fly-ownership.agape` | `app-o95jep3` | Lets Fly issue the certificate without an AAAA record |
 
-In Wix → Domains → openmissionofhope.org → DNS records, add:
+(A CNAME to the app would also work, but a host cannot have both an A record and a CNAME.)
+`fly certs check agape.openmissionofhope.org --app omh-agape` shows the certificate (Let's Encrypt,
+renewed automatically by Fly). IPv6-only clients cannot reach the custom domain until an AAAA record
+(`2a09:8280:1::1cf:e9d7:0`) can be added; `omh-agape.fly.dev` has both.
 
-| Type | Host | Value |
-|---|---|---|
-| CNAME | `agape` | `omh-agape.fly.dev` |
-
-(Fly may also ask for an `_acme-challenge.agape` CNAME; `fly certs setup
-agape.openmissionofhope.org --app omh-agape` prints the exact records.) Then:
-
-```bash
-fly certs check agape.openmissionofhope.org --app omh-agape   # wait for "Issued"
-curl -fsS https://agape.openmissionofhope.org/healthz
-```
-
-`AGAPE_PUBLIC_URL` in `fly.toml` is already `https://agape.openmissionofhope.org`;
+`AGAPE_PUBLIC_URL` in `fly.toml` is `https://agape.openmissionofhope.org`;
 `https://omh-agape.fly.dev` stays allowed through `AGAPE_EXTRA_ORIGINS`.
 
 ### Routine deploys

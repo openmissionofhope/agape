@@ -12,9 +12,9 @@ CPR nearby, and bringing an AED.
 Agape is offered out of Christian love and is for everyone, of any faith or none; nobody is asked
 to take part in anything religious to give or receive help.
 
-Target address: **https://agape.openmissionofhope.org** (see [Status](#status)).
+Live at **https://agape.openmissionofhope.org** (also `https://omh-agape.fly.dev`).
 
-## Status
+## Status (2026-10-27)
 
 | Part | State |
 |---|---|
@@ -22,10 +22,11 @@ Target address: **https://agape.openmissionofhope.org** (see [Status](#status)).
 | Volunteer profiles, service radius, self-reported / moderator-checked skills | Implemented and tested |
 | Atomic claims, multiple helpers per request, release / remove / reopen / complete | Implemented and tested (database-enforced) |
 | Private coordination, reporting, blocking, rate limits, suspensions, audit history | Implemented and tested |
-| Notifications: in-app inbox (always), Web Push (needs VAPID keys), email (needs SMTP) | Implemented and tested with fake senders; real push not yet verified on devices |
+| Notifications: in-app inbox (always), Web Push, email | In-app and Web Push live (VAPID configured); push delivery not yet checked on real devices; email not configured (no SMTP account) |
 | Emergency requests (call 911 for me / CPR / AED) | Implemented and tested; **switched off by default** (`AGAPE_EMERGENCY_MODE=off`) until staffing and alert delivery are confirmed — see [docs/OPERATIONS.md §5](docs/OPERATIONS.md#5-turning-on-emergency-requests) |
 | Emergency coverage | United States only, labelled as such |
-| Deployment to Fly.io and DNS for agape.openmissionofhope.org | **Not deployed yet** — exact steps in [docs/OPERATIONS.md §1](docs/OPERATIONS.md#1-deployment-flyio) |
+| Deployment | **Live** on Fly.io (`omh-agape`, one machine in `iad`), HTTPS with a Let's Encrypt certificate; `/healthz` ok, pages and form submission verified on the live domain |
+| Not yet done | First administrator account; external uptime monitor on `/healthz`; push check on phones; emergency pilot checklist |
 
 ## Run it
 
