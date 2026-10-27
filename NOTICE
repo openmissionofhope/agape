@@ -1,0 +1,20 @@
+OMH Agape
+Copyright 2026 Open Mission of Hope
+
+This product includes software developed at Open Mission of Hope, licensed under
+the Apache License, Version 2.0 (see LICENSE).
+
+Bundled third-party material:
+
+* data/us-zcta.csv is derived from the U.S. Census Bureau 2025 Gazetteer Files
+  (ZIP Code Tabulation Areas), a work of the U.S. Government in the public domain.
+* Leaflet (https://leafletjs.com), copied into public/vendor at build time,
+  is licensed under the BSD 2-Clause License. Copyright (c) 2010-2023 Volodymyr Agafonkin,
+  Copyright (c) 2010-2011 CloudMade.
+* Map tiles are loaded at runtime from OpenStreetMap; map data © OpenStreetMap
+  contributors, available under the Open Database License.
+
+Emergency guidance shown in the application quotes or paraphrases, with
+attribution and links, the National 911 Program (911.gov), the Federal
+Communications Commission, the American Heart Association and the American Red
+Cross. Those organizations do not endorse Agape.

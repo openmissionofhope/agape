@@ -1,0 +1,49 @@
+# Fly.io deployment for OMH Agape. See docs/OPERATIONS.md.
+#
+# One always-on machine with one volume: the notification worker and the
+# maintenance job run in the web process, and SQLite lives on the volume.
+# Never scale past one machine.
+
+app = "omh-agape"
+primary_region = "iad"
+kill_signal = "SIGTERM"
+kill_timeout = "30s"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  NODE_ENV = "production"
+  PORT = "8080"
+  AGAPE_DATABASE_PATH = "/data/agape.db"
+  AGAPE_PUBLIC_URL = "https://agape.openmissionofhope.org"
+  AGAPE_EXTRA_ORIGINS = "https://omh-agape.fly.dev"
+  AGAPE_TRUST_PROXY = "true"
+  # Emergency volunteer requests stay off until staffing and alert delivery are
+  # confirmed (docs/OPERATIONS.md, "Turning on emergency requests").
+  AGAPE_EMERGENCY_MODE = "off"
+  AGAPE_EMERGENCY_RESPONDER_MIN_ACCOUNT_AGE_HOURS = "24"
+
+[mounts]
+  source = "agape_data"
+  destination = "/data"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "off"
+  auto_start_machines = true
+  min_machines_running = 1
+
+  # Liveness only. /healthz reports operational problems (a stalled worker,
+  # overdue notifications) as 503 for a person to look at; it must not restart the machine.
+  [[http_service.checks]]
+    method = "GET"
+    path = "/livez"
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "20s"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"

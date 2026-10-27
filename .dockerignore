@@ -1,0 +1,13 @@
+node_modules
+dist
+var
+public/vendor
+.git
+.github
+tests
+docs
+prompts
+*.db
+*.db-*
+.env
+.env.*

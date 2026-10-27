@@ -1,0 +1,11 @@
+node_modules/
+dist/
+var/
+*.db
+*.db-shm
+*.db-wal
+.env
+.env.*
+!.env.example
+public/vendor/
+coverage/
